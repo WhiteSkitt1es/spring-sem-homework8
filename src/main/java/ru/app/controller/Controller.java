@@ -16,6 +16,8 @@ public class Controller {
 
     private final NoteService service;
 
+    private final FileGateway fileGateway;
+
     @GetMapping
     public ResponseEntity<List<Note>> getNotes() {
         return new ResponseEntity<>(service.getAllNotes(), HttpStatus.OK);
@@ -23,6 +25,7 @@ public class Controller {
 
     @PostMapping("/add-note")
     public ResponseEntity<Note> addTask(@RequestParam String description) {
+        fileGateway.writeFile("notes", description);
         return new ResponseEntity<>(service.addNote(description), HttpStatus.CREATED);
     }
 
